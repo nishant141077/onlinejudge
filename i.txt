@@ -1,0 +1,13 @@
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2016-01-05 19:04 IST
+Nmap scan report for 172.31.108.0
+Host is up (0.0014s latency).
+PORT   STATE  SERVICE
+22/tcp closed ssh
+
+Nmap scan report for 172.31.108.1
+Host is up (0.00063s latency).
+PORT   STATE  SERVICE
+22/tcp closed ssh
+
+Nmap done: 256 IP addresses (2 hosts up) scanned in 11.66 seconds
