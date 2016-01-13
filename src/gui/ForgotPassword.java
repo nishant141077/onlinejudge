@@ -116,19 +116,19 @@ private void backLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:e
 private void proceedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proceedButtonActionPerformed
     String question = questionComboBox.getSelectedItem().toString();
     LoginManagement loginManagement = new LoginManagement();
-    Response response = new Response();
     
     if(formComplete()) { 
-        response = loginManagement.checkValidity(handle, question, answerField.getText());
-        if(response.responseCode == 0) {
-            this.hide();
-            ResetPassword resetPassword = new ResetPassword();
-            resetPassword.setVisible(true);
-            resetPassword.takeForgotPasswordObject(this);
-        }
-        else {
-            JOptionPane.showMessageDialog(rootPane, response.responseMessage);
-        }
+        try {
+            if(loginManagement.checkValidity(handle, question, answerField.getText())) {
+                this.hide();
+                ResetPassword resetPassword = new ResetPassword();
+                resetPassword.setVisible(true);
+                resetPassword.takeForgotPasswordObject(this, handle);
+            }
+            else {
+                JOptionPane.showMessageDialog(rootPane, "Incorrect question or answer");
+            }
+        } catch(Exception exception) {}
     }
 }//GEN-LAST:event_proceedButtonActionPerformed
 

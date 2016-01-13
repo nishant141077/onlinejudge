@@ -4,12 +4,9 @@
  */
 package management;
 
-import config.Configuration;
-import java.io.DataOutputStream;
+import com.sun.corba.se.impl.protocol.giopmsgheaders.ReplyMessage;
+import entities.User;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import socket.Communication;
 
@@ -19,14 +16,23 @@ import socket.Communication;
  */
 public class LoginManagement implements Serializable {
 
-    public Response checkValidity(String handle, String question, String answer) {
-        return new Response();
+    public boolean  checkValidity(String handle, String question, String answer) throws IOException, ClassNotFoundException {
+        Message message = new Message();
+        message.code = 3;
+        message.user = new User(handle, "", "", question, answer, 0, "");
+        
+        Communication.send(message);
+        
+        Message reply = new Message();
+        reply = Communication.receive();
+        return reply.status;
     }
 
     public boolean searchHandle(String handle) throws IOException, ClassNotFoundException {
         Message message = new Message();
         message.code = 1;
-        message.handle = handle;
+        message.user = new User(handle, "");
+   
         Communication.send(message);
         
         Message reply = new Message();
@@ -37,14 +43,37 @@ public class LoginManagement implements Serializable {
     public boolean checkAuthenticity(String handle, String password) throws IOException, ClassNotFoundException {
         Message message = new Message();
         message.code = 2;
-        message.handle = handle;
-        message.password = password;
+        message.user = new User(handle, password);
         
         Communication.send(message);
         
         Message reply = new Message();
         reply = Communication.receive();
         
+        return reply.status;
+    }
+
+    public boolean resetPassword(String handle, String password) throws IOException, ClassNotFoundException {
+        Message message = new Message();
+        message.code = 4;
+        message.user = new User(handle, password);
+        
+        Communication.send(message);
+        
+        Message reply = new Message();
+        reply = Communication.receive();
+        return reply.status;
+    }
+
+    public boolean registerUser(User user) throws IOException, ClassNotFoundException {
+        Message message = new Message();
+        message.code = 5;
+        message.user = user;
+        
+        Communication.send(message);
+        
+        Message reply = new Message();
+        reply = Communication.receive();
         return reply.status;
     }
     

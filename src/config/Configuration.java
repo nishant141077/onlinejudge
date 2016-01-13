@@ -23,8 +23,8 @@ public class Configuration {
     public static ObjectInputStream ois = null;
 //    public static ObjectOutputStream boos = null;
 //    public static ObjectInputStream bois = null;
-    public static String handle = "";
-    public static String password= "";
+    public static String handle;
+    public static String password;
     
     /**************Some data as cache******************/
     public static String questions[] = new String[]{

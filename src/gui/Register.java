@@ -11,7 +11,9 @@
 package gui;
 
 import config.Configuration;
+import entities.User;
 import javax.swing.JOptionPane;
+import management.LoginManagement;
 
 /**
  *
@@ -40,6 +42,7 @@ public class Register extends javax.swing.JFrame {
         genderLabel = new javax.swing.JLabel();
         answerLabel = new javax.swing.JLabel();
         securityQuestionLabel = new javax.swing.JLabel();
+        confirmPasswordLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
         handleLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
@@ -49,13 +52,14 @@ public class Register extends javax.swing.JFrame {
         nameField = new javax.swing.JTextField();
         genderComboBox = new javax.swing.JComboBox();
         securityQuesComboBox = new javax.swing.JComboBox();
+        confirmPasswordField = new javax.swing.JPasswordField();
         passwordField = new javax.swing.JPasswordField();
         backLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(450, 250, 0, 0));
 
-        registerLabel.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        registerLabel.setFont(new java.awt.Font("Ubuntu", 1, 17));
         registerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         registerLabel.setText("Registration Form");
         registerLabel.setBounds(129, 10, 199, 20);
@@ -64,22 +68,28 @@ public class Register extends javax.swing.JFrame {
         genderLabel.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
         genderLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         genderLabel.setText("Gender");
-        genderLabel.setBounds(20, 170, 90, 20);
+        genderLabel.setBounds(20, 220, 90, 20);
         jLayeredPane1.add(genderLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         answerLabel.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
         answerLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         answerLabel.setText("Answer");
-        answerLabel.setBounds(10, 250, 100, 20);
+        answerLabel.setBounds(10, 300, 100, 20);
         jLayeredPane1.add(answerLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         securityQuestionLabel.setFont(new java.awt.Font("Ubuntu", 1, 13)); // NOI18N
         securityQuestionLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         securityQuestionLabel.setText("Security Ques.");
-        securityQuestionLabel.setBounds(10, 210, 100, 20);
+        securityQuestionLabel.setBounds(10, 260, 100, 20);
         jLayeredPane1.add(securityQuestionLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        passwordLabel.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
+        confirmPasswordLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        confirmPasswordLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        confirmPasswordLabel.setText("Confirm Again");
+        confirmPasswordLabel.setBounds(0, 170, 110, 20);
+        jLayeredPane1.add(confirmPasswordLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        passwordLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
         passwordLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         passwordLabel.setText("Password");
         passwordLabel.setBounds(20, 130, 90, 20);
@@ -91,7 +101,7 @@ public class Register extends javax.swing.JFrame {
         handleLabel.setBounds(20, 90, 90, 20);
         jLayeredPane1.add(handleLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        nameLabel.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
+        nameLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
         nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nameLabel.setText("Name");
         nameLabel.setBounds(20, 50, 90, 20);
@@ -105,7 +115,7 @@ public class Register extends javax.swing.JFrame {
                 submitButtonActionPerformed(evt);
             }
         });
-        submitButton.setBounds(159, 290, 139, 35);
+        submitButton.setBounds(159, 340, 139, 35);
         jLayeredPane1.add(submitButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
         handleField.setBounds(130, 88, 300, 28);
         jLayeredPane1.add(handleField, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -115,19 +125,21 @@ public class Register extends javax.swing.JFrame {
                 answerFieldActionPerformed(evt);
             }
         });
-        answerField.setBounds(130, 248, 300, 28);
+        answerField.setBounds(130, 298, 300, 28);
         jLayeredPane1.add(answerField, javax.swing.JLayeredPane.DEFAULT_LAYER);
         nameField.setBounds(130, 48, 300, 28);
         jLayeredPane1.add(nameField, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         genderComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        genderComboBox.setBounds(130, 168, 100, 28);
+        genderComboBox.setBounds(130, 218, 100, 28);
         jLayeredPane1.add(genderComboBox, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         securityQuesComboBox.setFont(new java.awt.Font("Ubuntu", 0, 13)); // NOI18N
         securityQuesComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        securityQuesComboBox.setBounds(130, 208, 300, 28);
+        securityQuesComboBox.setBounds(130, 258, 300, 26);
         jLayeredPane1.add(securityQuesComboBox, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        confirmPasswordField.setBounds(130, 168, 300, 28);
+        jLayeredPane1.add(confirmPasswordField, javax.swing.JLayeredPane.DEFAULT_LAYER);
         passwordField.setBounds(130, 128, 300, 28);
         jLayeredPane1.add(passwordField, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -139,7 +151,7 @@ public class Register extends javax.swing.JFrame {
                 backLabelMouseClicked(evt);
             }
         });
-        backLabel.setBounds(10, 300, 70, 20);
+        backLabel.setBounds(10, 350, 70, 20);
         jLayeredPane1.add(backLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -150,18 +162,16 @@ public class Register extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 private void answerFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_answerFieldActionPerformed
-// TODO add your handling code here:
 }//GEN-LAST:event_answerFieldActionPerformed
 
 private void backLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backLabelMouseClicked
-// TODO add your handling code here:
     this.dispose();
     login.setVisible(true);
 }//GEN-LAST:event_backLabelMouseClicked
@@ -169,7 +179,23 @@ private void backLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:e
 private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
 // TODO add your handling code here:
     if(formComplete()) {
-        JOptionPane.showMessageDialog(rootPane, "Filled fully");
+        try {
+            LoginManagement loginManagement = new LoginManagement();
+            
+            if(loginManagement.searchHandle(handleField.getText()) == false) {
+                if(loginManagement.registerUser(new User(handleField.getText(), nameField.getText(),
+                        passwordField.getText(), securityQuesComboBox.getSelectedItem().toString(),
+                        answerField.getText(), 0, genderComboBox.getSelectedItem().toString()))) {
+                    this.dispose();
+                    login.setVisible(true);
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(rootPane, "This handle is already taken");
+            }
+        } catch(Exception exception) {
+            JOptionPane.showMessageDialog(rootPane, "Client : " + exception.getMessage());
+        }
     }
 }//GEN-LAST:event_submitButtonActionPerformed
 
@@ -212,6 +238,8 @@ private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JTextField answerField;
     private javax.swing.JLabel answerLabel;
     private javax.swing.JLabel backLabel;
+    private javax.swing.JPasswordField confirmPasswordField;
+    private javax.swing.JLabel confirmPasswordLabel;
     private javax.swing.JComboBox genderComboBox;
     private javax.swing.JLabel genderLabel;
     private javax.swing.JTextField handleField;
@@ -245,8 +273,16 @@ private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             JOptionPane.showMessageDialog(rootPane, "Password field cannot be left blank");
             return false;
         }
+        if(confirmPasswordField.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Confirm your password");
+            return false;
+        }
         if(answerField.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Answer field cannot be left blank");
+            return false;
+        }
+        if(passwordField.getText().equals(confirmPasswordField.getText()) == false) {
+            JOptionPane.showMessageDialog(rootPane, "Passwords do not match");
             return false;
         }
         return true;

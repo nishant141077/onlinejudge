@@ -10,6 +10,9 @@
  */
 package gui;
 
+import javax.swing.JOptionPane;
+import management.LoginManagement;
+
 /**
  *
  * @author nishant
@@ -42,19 +45,19 @@ public class ResetPassword extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(450, 250, 0, 0));
 
-        resetPasswordLabel.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        resetPasswordLabel.setFont(new java.awt.Font("Ubuntu", 1, 17));
         resetPasswordLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         resetPasswordLabel.setText("Reset Password");
         resetPasswordLabel.setBounds(125, 10, 150, 20);
         jLayeredPane1.add(resetPasswordLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        confirmPasswordLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        confirmPasswordLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
         confirmPasswordLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         confirmPasswordLabel.setText("Confirm Password");
         confirmPasswordLabel.setBounds(0, 90, 140, 20);
         jLayeredPane1.add(confirmPasswordLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        newPasswordLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        newPasswordLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
         newPasswordLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         newPasswordLabel.setText("New Password");
         newPasswordLabel.setBounds(10, 50, 130, 20);
@@ -64,9 +67,14 @@ public class ResetPassword extends javax.swing.JFrame {
         newPasswordField.setBounds(160, 47, 220, 28);
         jLayeredPane1.add(newPasswordField, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        resetPasswordButton.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
+        resetPasswordButton.setFont(new java.awt.Font("Ubuntu", 1, 16));
         resetPasswordButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/rsz_reset.png"))); // NOI18N
         resetPasswordButton.setText("Reset my Password");
+        resetPasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetPasswordButtonActionPerformed(evt);
+            }
+        });
         resetPasswordButton.setBounds(100, 140, 200, 30);
         jLayeredPane1.add(resetPasswordButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -100,6 +108,26 @@ private void backLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:e
     this.dispose();
     forgotPassword.setVisible(true);
 }//GEN-LAST:event_backLabelMouseClicked
+
+private void resetPasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPasswordButtonActionPerformed
+    if(formComplete()) {
+        if(newPasswordField.getText().equals(confirmPasswordField.getText())) {
+            LoginManagement loginManagement = new LoginManagement();
+            
+            try {
+                if(loginManagement.resetPassword(handle, newPasswordField.getText())) {
+                    this.dispose();
+                    new Login().setVisible(true);
+                }
+            } catch(Exception exception) {
+                JOptionPane.showMessageDialog(rootPane, "Client : " + exception.getMessage());
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(rootPane, "Passwords do not match");
+        }
+    }
+}//GEN-LAST:event_resetPasswordButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,7 +176,21 @@ private void backLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:e
     // End of variables declaration//GEN-END:variables
 
     ForgotPassword forgotPassword;
-    void takeForgotPasswordObject(ForgotPassword forgotPassword) {
+    String handle;
+    void takeForgotPasswordObject(ForgotPassword forgotPassword, String handle) {
         this.forgotPassword = forgotPassword;
+        this.handle = handle;
+    }
+
+    private boolean formComplete() {
+        if(newPasswordField.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Please provide your New Password");
+            return false;
+        }
+        if(confirmPasswordField.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Please confirm your password again");
+            return false;
+        }
+        return true;
     }
 }

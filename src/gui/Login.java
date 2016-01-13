@@ -16,18 +16,18 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import management.CacheManagement;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
 
 /**
  *
  * @author nishant
  */
 public class Login extends javax.swing.JFrame {
-
     /** Creates new form Login */
     public Login() {
         initComponents();
-        handleField.setText(Configuration.handle);
-        passwordField.setText(Configuration.password);
     }
 
     /** This method is called from within the constructor to
@@ -47,7 +47,6 @@ public class Login extends javax.swing.JFrame {
         passwordField = new javax.swing.JPasswordField();
         forgotPasswordButton = new javax.swing.JButton();
         loginButton = new javax.swing.JButton();
-        rememberCredentialsCheckBox = new javax.swing.JCheckBox();
         registerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,7 +85,7 @@ public class Login extends javax.swing.JFrame {
         forgotPasswordButton.setBounds(190, 160, 170, 30);
         jLayeredPane1.add(forgotPasswordButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        loginButton.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
+        loginButton.setFont(new java.awt.Font("Ubuntu", 1, 16));
         loginButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/rsz_2login.png"))); // NOI18N
         loginButton.setText("LOGIN");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -97,10 +96,6 @@ public class Login extends javax.swing.JFrame {
         loginButton.setBounds(40, 160, 140, 30);
         jLayeredPane1.add(loginButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        rememberCredentialsCheckBox.setText("Remember Credentials");
-        rememberCredentialsCheckBox.setBounds(40, 200, 190, 24);
-        jLayeredPane1.add(rememberCredentialsCheckBox, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         registerButton.setFont(new java.awt.Font("Ubuntu", 1, 17));
         registerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/list-add.png"))); // NOI18N
         registerButton.setText("New ?  Register Here");
@@ -109,7 +104,7 @@ public class Login extends javax.swing.JFrame {
                 registerButtonActionPerformed(evt);
             }
         });
-        registerButton.setBounds(40, 240, 320, 30);
+        registerButton.setBounds(40, 210, 320, 40);
         jLayeredPane1.add(registerButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -120,7 +115,7 @@ public class Login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
         );
 
         pack();
@@ -128,26 +123,19 @@ public class Login extends javax.swing.JFrame {
 
 private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
     if(formComplete()) {
-        if(rememberCredentialsCheckBox.isSelected()) {
-            Configuration.handle = handleField.getText();
-            Configuration.password = passwordField.getText();
-        }
-        else {
-            Configuration.handle = "";
-            Configuration.password = "";
-        }
+        CacheManagement.addCache(handleField.getText(), passwordField.getText());    
         
         LoginManagement loginManagement = new LoginManagement();
         try {
             if(loginManagement.checkAuthenticity(handleField.getText(), passwordField.getText())) {
-            //Direct to User Dashboard
+                //Direct to User Dashboard
+                this.dispose();
+                new Dashboard().setVisible(true);
             }
             else {
                 JOptionPane.showMessageDialog(rootPane, "Invalid credentials");
             }
-        } catch(Exception exception) {
-            
-        }
+        } catch(Exception exception) {}
     }
 }//GEN-LAST:event_loginButtonActionPerformed
 
@@ -228,7 +216,6 @@ private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton registerButton;
-    private javax.swing.JCheckBox rememberCredentialsCheckBox;
     private javax.swing.JLabel userLoginLabel;
     // End of variables declaration//GEN-END:variables
 
