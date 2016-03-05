@@ -185,7 +185,7 @@ private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             if(loginManagement.searchHandle(handleField.getText()) == false) {
                 if(loginManagement.registerUser(new User(handleField.getText(), nameField.getText(),
                         passwordField.getText(), securityQuesComboBox.getSelectedItem().toString(),
-                        answerField.getText(), 0, genderComboBox.getSelectedItem().toString()))) {
+                        answerField.getText(), genderComboBox.getSelectedItem().toString()))) {
                     this.dispose();
                     login.setVisible(true);
                 }

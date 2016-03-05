@@ -4,7 +4,6 @@
  */
 package management;
 
-import com.sun.corba.se.impl.protocol.giopmsgheaders.ReplyMessage;
 import entities.User;
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,7 +18,7 @@ public class LoginManagement implements Serializable {
     public boolean  checkValidity(String handle, String question, String answer) throws IOException, ClassNotFoundException {
         Message message = new Message();
         message.code = 3;
-        message.user = new User(handle, "", "", question, answer, 0, "");
+        message.user = new User(handle, "", "", question, answer, "");
         
         Communication.send(message);
         

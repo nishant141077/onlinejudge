@@ -10,7 +10,25 @@
  */
 package gui;
 
+import entities.Coder;
+import entities.Problem;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.font.TextAttribute;
+import java.nio.charset.CoderMalfunctionError;
+import java.util.List;
+import java.util.Map;
+import javax.activation.MailcapCommandMap;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import management.CacheManagement;
+import management.CoderManagement;
 
 /**
  *
@@ -21,8 +39,62 @@ public class Dashboard extends javax.swing.JFrame {
     /** Creates new form Dashboard */
     public Dashboard() {
         initComponents();
+        initPracticeProblems();
     }
 
+    JLabel problems[][];
+    public void initPracticeProblems() {
+        problems = new JLabel[100][6];
+        for(int i = 0;i<100;i++) {
+            for(int j = 0;j<6;j++) {
+                problems[i][j] = new JLabel();
+            }
+        }
+        
+        for(int i=0;i<6;i++) {
+            problems[0][i].setBackground(new java.awt.Color(203, 203, 163));
+            problems[0][i].setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+            problems[0][i].setBorder(javax.swing.BorderFactory.createEtchedBorder());
+            problems[0][i].setOpaque(true);
+        }
+        
+        //number
+        problems[0][0].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        problems[0][0].setText("No.");
+        problems[0][0].setBounds(20, 20, 50, 30);
+        jLayeredPane3.add(problems[0][0], javax.swing.JLayeredPane.DEFAULT_LAYER);
+        
+        //name
+        problems[0][1].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        problems[0][1].setText("Problem Name");
+        problems[0][1].setBounds(70, 20, 595, 30);
+        jLayeredPane3.add(problems[0][1], javax.swing.JLayeredPane.DEFAULT_LAYER);
+        
+        //code
+        problems[0][2].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        problems[0][2].setText("Code");
+        problems[0][2].setBounds(665, 20, 150, 30);
+        jLayeredPane3.add(problems[0][2], javax.swing.JLayeredPane.DEFAULT_LAYER);
+        
+        //difficulty
+        problems[0][3].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        problems[0][3].setText("Difficulty");
+        problems[0][3].setBounds(815, 20, 150, 30);
+        jLayeredPane3.add(problems[0][3], javax.swing.JLayeredPane.DEFAULT_LAYER);
+        
+        //solved by
+        problems[0][4].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        problems[0][4].setText("Solved By");
+        problems[0][4].setBounds(965, 20, 150, 30);
+        jLayeredPane3.add(problems[0][4], javax.swing.JLayeredPane.DEFAULT_LAYER);
+        
+        //accuracy
+        problems[0][5].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        problems[0][5].setText("Accuracy");
+        problems[0][5].setBounds(1115, 20, 120, 30);
+        jLayeredPane3.add(problems[0][5], javax.swing.JLayeredPane.DEFAULT_LAYER);
+        
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -32,31 +104,640 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        handleButton = new javax.swing.JButton();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        onjLabel = new javax.swing.JLabel();
+        tabbedPane = new javax.swing.JTabbedPane();
+        profilePanel = new javax.swing.JPanel();
+        jLayeredPane2 = new javax.swing.JLayeredPane();
+        nameLabel = new javax.swing.JLabel();
+        rankLabel = new javax.swing.JLabel();
+        aboutMeLabel = new javax.swing.JLabel();
+        handleLabel = new javax.swing.JLabel();
+        photoLabel = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        levelLabel = new javax.swing.JLabel();
+        editProfileButton = new javax.swing.JButton();
+        statsLabel = new javax.swing.JLabel();
+        acceptedLabel = new javax.swing.JLabel();
+        runtimeErrorLabel = new javax.swing.JLabel();
+        compilationErrorLabel = new javax.swing.JLabel();
+        submissionsLabel = new javax.swing.JLabel();
+        wrongAnswerLabel = new javax.swing.JLabel();
+        timeLimitExceededLabel = new javax.swing.JLabel();
+        contestsLabel = new javax.swing.JLabel();
+        problemSolvedLabel = new javax.swing.JLabel();
+        acValueLabel = new javax.swing.JLabel();
+        rteValueLabel = new javax.swing.JLabel();
+        cteValueLabel = new javax.swing.JLabel();
+        subsValueLabel = new javax.swing.JLabel();
+        waValueLabel = new javax.swing.JLabel();
+        tleValueLabel = new javax.swing.JLabel();
+        contestsValueLabel = new javax.swing.JLabel();
+        psValueLabel = new javax.swing.JLabel();
+        ratingLabel = new javax.swing.JLabel();
+        compareProfilesLabel = new javax.swing.JLabel();
+        vsLabel = new javax.swing.JLabel();
+        handle2Field = new javax.swing.JTextField();
+        handle1Field = new javax.swing.JTextField();
+        compareButton = new javax.swing.JButton();
+        compareRatingLabel2 = new javax.swing.JLabel();
+        compareSolvedLabel2 = new javax.swing.JLabel();
+        compareSubmissionsLabel2 = new javax.swing.JLabel();
+        compareAcceptedLabel2 = new javax.swing.JLabel();
+        compareCteLabel2 = new javax.swing.JLabel();
+        compareWaLabel2 = new javax.swing.JLabel();
+        compareRteLabel2 = new javax.swing.JLabel();
+        compareTleLabel2 = new javax.swing.JLabel();
+        compareContestsLabel2 = new javax.swing.JLabel();
+        compareRatingLabel1 = new javax.swing.JLabel();
+        compareSolvedLabel1 = new javax.swing.JLabel();
+        compareSubmissionsLabel1 = new javax.swing.JLabel();
+        compareAcceptedLabel1 = new javax.swing.JLabel();
+        compareCteLabel1 = new javax.swing.JLabel();
+        compareWaLabel1 = new javax.swing.JLabel();
+        compareRteLabel1 = new javax.swing.JLabel();
+        compareTleLabel1 = new javax.swing.JLabel();
+        compareContestsLabel1 = new javax.swing.JLabel();
+        compareRatingLabel = new javax.swing.JLabel();
+        compareSolvedLabel = new javax.swing.JLabel();
+        compareSubmissionsLabel = new javax.swing.JLabel();
+        compareAcceptedLabel = new javax.swing.JLabel();
+        compareCteLabel = new javax.swing.JLabel();
+        compareWaLabel = new javax.swing.JLabel();
+        compareRteLabel = new javax.swing.JLabel();
+        compareTleLabel = new javax.swing.JLabel();
+        compareContestsLabel = new javax.swing.JLabel();
+        practicePanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jLayeredPane3 = new javax.swing.JLayeredPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 500, 500));
+
+        onjLabel.setBackground(new java.awt.Color(191, 241, 146));
+        onjLabel.setFont(new java.awt.Font("FreeMono", 1, 48));
+        onjLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        onjLabel.setText("ONJ");
+        onjLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        onjLabel.setOpaque(true);
+        onjLabel.setBounds(10, 10, 120, 60);
+        jLayeredPane1.add(onjLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        nameLabel.setFont(new java.awt.Font("Ubuntu", 1, 24));
+        nameLabel.setText("Nishant Gupta");
+        nameLabel.setBounds(30, 170, 500, 40);
+        jLayeredPane2.add(nameLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        rankLabel.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
+        rankLabel.setText("Rank #1");
+        rankLabel.setBounds(30, 270, 250, 30);
+        jLayeredPane2.add(rankLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        aboutMeLabel.setFont(new java.awt.Font("Ubuntu", 1, 18));
+        aboutMeLabel.setText("CSE Final Year");
+        aboutMeLabel.setBounds(30, 240, 480, 30);
+        jLayeredPane2.add(aboutMeLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        handleLabel.setFont(new java.awt.Font("Ubuntu", 1, 18));
+        handleLabel.setText("nishant_141077");
+        handleLabel.setBounds(30, 210, 250, 30);
+        jLayeredPane2.add(handleLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        photoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/male.png"))); // NOI18N
+        photoLabel.setBounds(30, 10, 150, 150);
+        jLayeredPane2.add(photoLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator1.setBounds(800, 0, 3, 572);
+        jLayeredPane2.add(jSeparator1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        levelLabel.setFont(new java.awt.Font("Ubuntu", 1, 48));
+        levelLabel.setForeground(new java.awt.Color(118, 113, 113));
+        levelLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/rookie.png"))); // NOI18N
+        levelLabel.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        levelLabel.setBounds(200, 61, 99, 99);
+        jLayeredPane2.add(levelLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        editProfileButton.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        editProfileButton.setText("Edit Profile");
+        editProfileButton.setBounds(660, 10, 130, 30);
+        jLayeredPane2.add(editProfileButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        statsLabel.setBackground(new java.awt.Color(203, 203, 163));
+        statsLabel.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        statsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        statsLabel.setText("Statistics");
+        statsLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        statsLabel.setOpaque(true);
+        statsLabel.setBounds(340, 390, 120, 30);
+        jLayeredPane2.add(statsLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        acceptedLabel.setBackground(new java.awt.Color(191, 241, 146));
+        acceptedLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        acceptedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        acceptedLabel.setText("Accepted");
+        acceptedLabel.setToolTipText("Accepted solutions");
+        acceptedLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        acceptedLabel.setOpaque(true);
+        acceptedLabel.setBounds(206, 430, 97, 50);
+        jLayeredPane2.add(acceptedLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        runtimeErrorLabel.setBackground(new java.awt.Color(191, 241, 146));
+        runtimeErrorLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        runtimeErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        runtimeErrorLabel.setText("RTE");
+        runtimeErrorLabel.setToolTipText("Runtime Errors");
+        runtimeErrorLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        runtimeErrorLabel.setOpaque(true);
+        runtimeErrorLabel.setBounds(497, 430, 97, 50);
+        jLayeredPane2.add(runtimeErrorLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compilationErrorLabel.setBackground(new java.awt.Color(191, 241, 146));
+        compilationErrorLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        compilationErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compilationErrorLabel.setText("CTE");
+        compilationErrorLabel.setToolTipText("Compile Time Errors");
+        compilationErrorLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compilationErrorLabel.setOpaque(true);
+        compilationErrorLabel.setBounds(303, 430, 97, 50);
+        jLayeredPane2.add(compilationErrorLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        submissionsLabel.setBackground(new java.awt.Color(191, 241, 146));
+        submissionsLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        submissionsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        submissionsLabel.setText("Submissions");
+        submissionsLabel.setToolTipText("Total Submissions");
+        submissionsLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        submissionsLabel.setOpaque(true);
+        submissionsLabel.setBounds(109, 430, 97, 50);
+        jLayeredPane2.add(submissionsLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        wrongAnswerLabel.setBackground(new java.awt.Color(191, 241, 146));
+        wrongAnswerLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        wrongAnswerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        wrongAnswerLabel.setText("WA");
+        wrongAnswerLabel.setToolTipText("Wrong Answers");
+        wrongAnswerLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        wrongAnswerLabel.setOpaque(true);
+        wrongAnswerLabel.setBounds(400, 430, 97, 50);
+        jLayeredPane2.add(wrongAnswerLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        timeLimitExceededLabel.setBackground(new java.awt.Color(191, 241, 146));
+        timeLimitExceededLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        timeLimitExceededLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timeLimitExceededLabel.setText("TLE");
+        timeLimitExceededLabel.setToolTipText("Time Limit Exceeded");
+        timeLimitExceededLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        timeLimitExceededLabel.setOpaque(true);
+        timeLimitExceededLabel.setBounds(594, 430, 97, 50);
+        jLayeredPane2.add(timeLimitExceededLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        contestsLabel.setBackground(new java.awt.Color(191, 241, 146));
+        contestsLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        contestsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        contestsLabel.setText("Contests");
+        contestsLabel.setToolTipText("Contests given");
+        contestsLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        contestsLabel.setOpaque(true);
+        contestsLabel.setBounds(691, 430, 97, 50);
+        jLayeredPane2.add(contestsLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        problemSolvedLabel.setBackground(new java.awt.Color(191, 241, 146));
+        problemSolvedLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        problemSolvedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        problemSolvedLabel.setText("Solved");
+        problemSolvedLabel.setToolTipText("Problems Solved");
+        problemSolvedLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        problemSolvedLabel.setOpaque(true);
+        problemSolvedLabel.setBounds(12, 430, 97, 50);
+        jLayeredPane2.add(problemSolvedLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        acValueLabel.setBackground(new java.awt.Color(225, 218, 174));
+        acValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        acValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        acValueLabel.setText("0");
+        acValueLabel.setToolTipText("Accepted solutions");
+        acValueLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        acValueLabel.setOpaque(true);
+        acValueLabel.setBounds(206, 480, 97, 50);
+        jLayeredPane2.add(acValueLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        rteValueLabel.setBackground(new java.awt.Color(225, 218, 174));
+        rteValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        rteValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rteValueLabel.setText("0");
+        rteValueLabel.setToolTipText("Runtime Errors");
+        rteValueLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        rteValueLabel.setOpaque(true);
+        rteValueLabel.setBounds(497, 480, 97, 50);
+        jLayeredPane2.add(rteValueLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        cteValueLabel.setBackground(new java.awt.Color(225, 218, 174));
+        cteValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        cteValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cteValueLabel.setText("0");
+        cteValueLabel.setToolTipText("Compile Time Errors");
+        cteValueLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        cteValueLabel.setOpaque(true);
+        cteValueLabel.setBounds(303, 480, 97, 50);
+        jLayeredPane2.add(cteValueLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        subsValueLabel.setBackground(new java.awt.Color(225, 218, 174));
+        subsValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        subsValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        subsValueLabel.setText("0");
+        subsValueLabel.setToolTipText("Total Submissions");
+        subsValueLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        subsValueLabel.setOpaque(true);
+        subsValueLabel.setBounds(109, 480, 97, 50);
+        jLayeredPane2.add(subsValueLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        waValueLabel.setBackground(new java.awt.Color(225, 218, 174));
+        waValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        waValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        waValueLabel.setText("0");
+        waValueLabel.setToolTipText("Wrong Answers");
+        waValueLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        waValueLabel.setOpaque(true);
+        waValueLabel.setBounds(400, 480, 97, 50);
+        jLayeredPane2.add(waValueLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        tleValueLabel.setBackground(new java.awt.Color(225, 218, 174));
+        tleValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        tleValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tleValueLabel.setText("0");
+        tleValueLabel.setToolTipText("Time Limit Exceeded");
+        tleValueLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        tleValueLabel.setOpaque(true);
+        tleValueLabel.setBounds(594, 480, 97, 50);
+        jLayeredPane2.add(tleValueLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        contestsValueLabel.setBackground(new java.awt.Color(225, 218, 174));
+        contestsValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        contestsValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        contestsValueLabel.setText("0");
+        contestsValueLabel.setToolTipText("Contests given");
+        contestsValueLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        contestsValueLabel.setOpaque(true);
+        contestsValueLabel.setBounds(691, 480, 97, 50);
+        jLayeredPane2.add(contestsValueLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        psValueLabel.setBackground(new java.awt.Color(225, 218, 174));
+        psValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        psValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        psValueLabel.setText("0");
+        psValueLabel.setToolTipText("Problems Solved");
+        psValueLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        psValueLabel.setOpaque(true);
+        psValueLabel.setBounds(12, 480, 97, 50);
+        jLayeredPane2.add(psValueLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        ratingLabel.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
+        ratingLabel.setText("Rating : 1000 ");
+        ratingLabel.setBounds(30, 300, 190, 30);
+        jLayeredPane2.add(ratingLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareProfilesLabel.setBackground(new java.awt.Color(203, 203, 163));
+        compareProfilesLabel.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareProfilesLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareProfilesLabel.setText("Compare Profiles");
+        compareProfilesLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareProfilesLabel.setOpaque(true);
+        compareProfilesLabel.setBounds(946, 15, 180, 30);
+        jLayeredPane2.add(compareProfilesLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        vsLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/rsz_vs.png"))); // NOI18N
+        vsLabel.setText("jLabel1");
+        vsLabel.setBounds(1011, 70, 50, 64);
+        jLayeredPane2.add(vsLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        handle2Field.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        handle2Field.setText("Handle - 2");
+        handle2Field.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                handle2FieldMouseClicked(evt);
+            }
+        });
+        handle2Field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                handle2FieldActionPerformed(evt);
+            }
+        });
+        handle2Field.setBounds(1070, 90, 180, 28);
+        jLayeredPane2.add(handle2Field, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        handle1Field.setFont(new java.awt.Font("Ubuntu", 1, 15));
+        handle1Field.setText("Handle - 1");
+        handle1Field.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                handle1FieldMouseClicked(evt);
+            }
+        });
+        handle1Field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                handle1FieldActionPerformed(evt);
+            }
+        });
+        handle1Field.setBounds(820, 90, 180, 28);
+        jLayeredPane2.add(handle1Field, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareButton.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareButton.setText("Compare");
+        compareButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compareButtonActionPerformed(evt);
+            }
+        });
+        compareButton.setBounds(986, 150, 100, 30);
+        jLayeredPane2.add(compareButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareRatingLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareRatingLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        compareRatingLabel2.setBorder(null);
+        compareRatingLabel2.setBounds(1100, 200, 100, 30);
+        jLayeredPane2.add(compareRatingLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareSolvedLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareSolvedLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        compareSolvedLabel2.setBorder(null);
+        compareSolvedLabel2.setBounds(1100, 230, 100, 30);
+        jLayeredPane2.add(compareSolvedLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareSubmissionsLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareSubmissionsLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        compareSubmissionsLabel2.setBorder(null);
+        compareSubmissionsLabel2.setBounds(1100, 260, 100, 30);
+        jLayeredPane2.add(compareSubmissionsLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareAcceptedLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareAcceptedLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        compareAcceptedLabel2.setBorder(null);
+        compareAcceptedLabel2.setBounds(1100, 290, 100, 30);
+        jLayeredPane2.add(compareAcceptedLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareCteLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareCteLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        compareCteLabel2.setBorder(null);
+        compareCteLabel2.setBounds(1100, 320, 100, 30);
+        jLayeredPane2.add(compareCteLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareWaLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareWaLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        compareWaLabel2.setBorder(null);
+        compareWaLabel2.setBounds(1100, 350, 100, 30);
+        jLayeredPane2.add(compareWaLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareRteLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareRteLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        compareRteLabel2.setBorder(null);
+        compareRteLabel2.setBounds(1100, 380, 100, 30);
+        jLayeredPane2.add(compareRteLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareTleLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareTleLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        compareTleLabel2.setBorder(null);
+        compareTleLabel2.setBounds(1100, 410, 100, 30);
+        jLayeredPane2.add(compareTleLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareContestsLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareContestsLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        compareContestsLabel2.setBorder(null);
+        compareContestsLabel2.setBounds(1100, 440, 100, 30);
+        jLayeredPane2.add(compareContestsLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareRatingLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareRatingLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        compareRatingLabel1.setBorder(null);
+        compareRatingLabel1.setBounds(870, 200, 100, 30);
+        jLayeredPane2.add(compareRatingLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareSolvedLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareSolvedLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        compareSolvedLabel1.setBorder(null);
+        compareSolvedLabel1.setBounds(870, 230, 100, 30);
+        jLayeredPane2.add(compareSolvedLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareSubmissionsLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareSubmissionsLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        compareSubmissionsLabel1.setBorder(null);
+        compareSubmissionsLabel1.setBounds(870, 260, 100, 30);
+        jLayeredPane2.add(compareSubmissionsLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareAcceptedLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareAcceptedLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        compareAcceptedLabel1.setBorder(null);
+        compareAcceptedLabel1.setBounds(870, 290, 100, 30);
+        jLayeredPane2.add(compareAcceptedLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareCteLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareCteLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        compareCteLabel1.setBorder(null);
+        compareCteLabel1.setBounds(870, 320, 100, 30);
+        jLayeredPane2.add(compareCteLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareWaLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareWaLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        compareWaLabel1.setBorder(null);
+        compareWaLabel1.setBounds(870, 350, 100, 30);
+        jLayeredPane2.add(compareWaLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareRteLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareRteLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        compareRteLabel1.setBorder(null);
+        compareRteLabel1.setBounds(870, 380, 100, 30);
+        jLayeredPane2.add(compareRteLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareTleLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareTleLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        compareTleLabel1.setBorder(null);
+        compareTleLabel1.setBounds(870, 410, 100, 30);
+        jLayeredPane2.add(compareTleLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareContestsLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17));
+        compareContestsLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        compareContestsLabel1.setBorder(null);
+        compareContestsLabel1.setBounds(870, 440, 100, 30);
+        jLayeredPane2.add(compareContestsLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareRatingLabel.setBackground(new java.awt.Color(225, 218, 174));
+        compareRatingLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareRatingLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareRatingLabel.setText("Rating");
+        compareRatingLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareRatingLabel.setOpaque(true);
+        compareRatingLabel.setBounds(986, 200, 100, 30);
+        jLayeredPane2.add(compareRatingLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareSolvedLabel.setBackground(new java.awt.Color(225, 218, 174));
+        compareSolvedLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareSolvedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareSolvedLabel.setText("Solved");
+        compareSolvedLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareSolvedLabel.setOpaque(true);
+        compareSolvedLabel.setBounds(986, 230, 100, 30);
+        jLayeredPane2.add(compareSolvedLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareSubmissionsLabel.setBackground(new java.awt.Color(225, 218, 174));
+        compareSubmissionsLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareSubmissionsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareSubmissionsLabel.setText("Submissions");
+        compareSubmissionsLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareSubmissionsLabel.setOpaque(true);
+        compareSubmissionsLabel.setBounds(986, 260, 100, 30);
+        jLayeredPane2.add(compareSubmissionsLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareAcceptedLabel.setBackground(new java.awt.Color(225, 218, 174));
+        compareAcceptedLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareAcceptedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareAcceptedLabel.setText("Accepted");
+        compareAcceptedLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareAcceptedLabel.setOpaque(true);
+        compareAcceptedLabel.setBounds(986, 290, 100, 30);
+        jLayeredPane2.add(compareAcceptedLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareCteLabel.setBackground(new java.awt.Color(225, 218, 174));
+        compareCteLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareCteLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareCteLabel.setText("CTE");
+        compareCteLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareCteLabel.setOpaque(true);
+        compareCteLabel.setBounds(986, 320, 100, 30);
+        jLayeredPane2.add(compareCteLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareWaLabel.setBackground(new java.awt.Color(225, 218, 174));
+        compareWaLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareWaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareWaLabel.setText("WA");
+        compareWaLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareWaLabel.setOpaque(true);
+        compareWaLabel.setBounds(986, 350, 100, 30);
+        jLayeredPane2.add(compareWaLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareRteLabel.setBackground(new java.awt.Color(225, 218, 174));
+        compareRteLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareRteLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareRteLabel.setText("RTE");
+        compareRteLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareRteLabel.setOpaque(true);
+        compareRteLabel.setBounds(986, 380, 100, 30);
+        jLayeredPane2.add(compareRteLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareTleLabel.setBackground(new java.awt.Color(225, 218, 174));
+        compareTleLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareTleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareTleLabel.setText("TLE");
+        compareTleLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareTleLabel.setOpaque(true);
+        compareTleLabel.setBounds(986, 410, 100, 30);
+        jLayeredPane2.add(compareTleLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        compareContestsLabel.setBackground(new java.awt.Color(225, 218, 174));
+        compareContestsLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
+        compareContestsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compareContestsLabel.setText("Contests");
+        compareContestsLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        compareContestsLabel.setOpaque(true);
+        compareContestsLabel.setBounds(986, 440, 100, 30);
+        jLayeredPane2.add(compareContestsLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
+        profilePanel.setLayout(profilePanelLayout);
+        profilePanelLayout.setHorizontalGroup(
+            profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLayeredPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1272, Short.MAX_VALUE)
+        );
+        profilePanelLayout.setVerticalGroup(
+            profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLayeredPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
+        );
+
+        tabbedPane.addTab("Profile", profilePanel);
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        jLayeredPane3.setPreferredSize(new java.awt.Dimension(1260, 700));
+        jScrollPane1.setViewportView(jLayeredPane3);
+
+        javax.swing.GroupLayout practicePanelLayout = new javax.swing.GroupLayout(practicePanel);
+        practicePanel.setLayout(practicePanelLayout);
+        practicePanelLayout.setHorizontalGroup(
+            practicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, practicePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1260, Short.MAX_VALUE))
+        );
+        practicePanelLayout.setVerticalGroup(
+            practicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, practicePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, Short.MAX_VALUE))
+        );
+
+        tabbedPane.addTab("Practice", practicePanel);
+
+        tabbedPane.setBounds(10, 80, 1280, 610);
+        jLayeredPane1.add(tabbedPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(handleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(615, Short.MAX_VALUE))
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1300, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(handleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(483, Short.MAX_VALUE))
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+private void handle1FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_handle1FieldActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_handle1FieldActionPerformed
+
+private void handle2FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_handle2FieldActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_handle2FieldActionPerformed
+
+private void handle1FieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_handle1FieldMouseClicked
+// TODO add your handling code here:
+    if(handle1Field.getText().equals("Handle - 1")) 
+        handle1Field.setText("");
+}//GEN-LAST:event_handle1FieldMouseClicked
+
+private void handle2FieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_handle2FieldMouseClicked
+// TODO add your handling code here:
+    if(handle2Field.getText().equals("Handle - 2"))
+        handle2Field.setText("");
+}//GEN-LAST:event_handle2FieldMouseClicked
+
+private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareButtonActionPerformed
+// TODO add your handling code here:
+    if(handleFilled()) {
+        try {
+            CoderManagement coderManagement = new CoderManagement();
+            Coder coder1 = coderManagement.getCoderDetails(handle1Field.getText());
+            if(coder1.name == null) {
+                JOptionPane.showMessageDialog(rootPane, "No registered user with handle : " + handle1Field.getText());
+                return ;
+            }
+            
+            Coder coder2 = coderManagement.getCoderDetails(handle2Field.getText());
+            if(coder2.name == null) {
+                JOptionPane.showMessageDialog(rootPane, "No registered user with handle : " + handle2Field.getText());
+                return ;
+            }
+            showComparision(coder1, coder2);
+        } catch(Exception exception) {
+            JOptionPane.showMessageDialog(rootPane, "Client : " + exception.getMessage()
+                    + " " + exception.getClass());
+        }
+    }
+}//GEN-LAST:event_compareButtonActionPerformed
+int cx = 350;
+int y = 0;
+JButton button[];
     /**
      * @param args the command line arguments
      */
@@ -93,6 +774,216 @@ public class Dashboard extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton handleButton;
+    private javax.swing.JLabel aboutMeLabel;
+    private javax.swing.JLabel acValueLabel;
+    private javax.swing.JLabel acceptedLabel;
+    private javax.swing.JLabel compareAcceptedLabel;
+    private javax.swing.JLabel compareAcceptedLabel1;
+    private javax.swing.JLabel compareAcceptedLabel2;
+    private javax.swing.JButton compareButton;
+    private javax.swing.JLabel compareContestsLabel;
+    private javax.swing.JLabel compareContestsLabel1;
+    private javax.swing.JLabel compareContestsLabel2;
+    private javax.swing.JLabel compareCteLabel;
+    private javax.swing.JLabel compareCteLabel1;
+    private javax.swing.JLabel compareCteLabel2;
+    private javax.swing.JLabel compareProfilesLabel;
+    private javax.swing.JLabel compareRatingLabel;
+    private javax.swing.JLabel compareRatingLabel1;
+    private javax.swing.JLabel compareRatingLabel2;
+    private javax.swing.JLabel compareRteLabel;
+    private javax.swing.JLabel compareRteLabel1;
+    private javax.swing.JLabel compareRteLabel2;
+    private javax.swing.JLabel compareSolvedLabel;
+    private javax.swing.JLabel compareSolvedLabel1;
+    private javax.swing.JLabel compareSolvedLabel2;
+    private javax.swing.JLabel compareSubmissionsLabel;
+    private javax.swing.JLabel compareSubmissionsLabel1;
+    private javax.swing.JLabel compareSubmissionsLabel2;
+    private javax.swing.JLabel compareTleLabel;
+    private javax.swing.JLabel compareTleLabel1;
+    private javax.swing.JLabel compareTleLabel2;
+    private javax.swing.JLabel compareWaLabel;
+    private javax.swing.JLabel compareWaLabel1;
+    private javax.swing.JLabel compareWaLabel2;
+    private javax.swing.JLabel compilationErrorLabel;
+    private javax.swing.JLabel contestsLabel;
+    private javax.swing.JLabel contestsValueLabel;
+    private javax.swing.JLabel cteValueLabel;
+    private javax.swing.JButton editProfileButton;
+    private javax.swing.JTextField handle1Field;
+    private javax.swing.JTextField handle2Field;
+    private javax.swing.JLabel handleLabel;
+    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JLayeredPane jLayeredPane2;
+    private javax.swing.JLayeredPane jLayeredPane3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel levelLabel;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JLabel onjLabel;
+    private javax.swing.JLabel photoLabel;
+    private javax.swing.JPanel practicePanel;
+    private javax.swing.JLabel problemSolvedLabel;
+    private javax.swing.JPanel profilePanel;
+    private javax.swing.JLabel psValueLabel;
+    private javax.swing.JLabel rankLabel;
+    private javax.swing.JLabel ratingLabel;
+    private javax.swing.JLabel rteValueLabel;
+    private javax.swing.JLabel runtimeErrorLabel;
+    private javax.swing.JLabel statsLabel;
+    private javax.swing.JLabel submissionsLabel;
+    private javax.swing.JLabel subsValueLabel;
+    private javax.swing.JTabbedPane tabbedPane;
+    private javax.swing.JLabel timeLimitExceededLabel;
+    private javax.swing.JLabel tleValueLabel;
+    private javax.swing.JLabel vsLabel;
+    private javax.swing.JLabel waValueLabel;
+    private javax.swing.JLabel wrongAnswerLabel;
     // End of variables declaration//GEN-END:variables
+
+    void initDashboard(Coder coder, List<Problem> problemsList) {
+        /** Coder details **/
+        handleLabel.setText(coder.handle);
+        ratingLabel.setText("Rating : " + coder.rating+"");
+        nameLabel.setText(coder.name);
+        aboutMeLabel.setText("About me : " + coder.aboutMe);
+        psValueLabel.setText(coder.problemsSolved+"");
+        subsValueLabel.setText(coder.submissions+"");
+        acValueLabel.setText(coder.accepted+"");
+        cteValueLabel.setText(coder.compilationErrors+"");
+        waValueLabel.setText(coder.wrongAnswers+"");
+        rteValueLabel.setText(coder.runtimeErrors+"");
+        tleValueLabel.setText(coder.timeLimitExceeds+"");
+        contestsValueLabel.setText(coder.contests+"");
+        makePieChart(coder);
+        if(coder.rating >= 1000 && coder.rating < 1400) {
+            levelLabel.setIcon(new ImageIcon("src/resources/rookie.png"));
+        }
+        else if(coder.rating >= 1400 && coder.rating < 1600) {
+            levelLabel.setIcon(new ImageIcon("src/resources/pro.png"));
+        }
+        else if(coder.rating >= 1600 && coder.rating < 1900) {
+            levelLabel.setIcon(new ImageIcon("src/resources/master.png"));
+        }
+        else if(coder.rating >= 1900) {
+            levelLabel.setIcon(new ImageIcon("src/resources/champion.png"));
+        }
+        /*******************************************************/
+        
+        /** Problem display **/
+        int i = 0;
+        for(Problem pr : problemsList) {
+            i++;
+            for(int j = 0;j<6;j++) {     
+                problems[i][j].setBackground(new java.awt.Color(255, 255, 255));
+                problems[i][j].setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+                problems[i][j].setBorder(javax.swing.BorderFactory.createEtchedBorder());
+                problems[i][j].setOpaque(true);
+                
+                //text alignment
+                if(j == 1)
+                    problems[i][j].setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                else if(j == 5)
+                    problems[i][j].setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                else 
+                    problems[i][j].setHorizontalAlignment(problems[i-1][j].getHorizontalAlignment());
+                   
+                problems[i][j].setBounds(problems[i-1][j].getX(), problems[i-1][j].getY() +
+                        problems[i-1][j].getHeight(), problems[i-1][j].getWidth(), problems[i-1][j].getHeight());
+                
+                //make name of problem underlined
+                //underlineLabelFont(problems[i][1]);
+                //problems[i][1].setForeground(Color.BLUE);
+                jLayeredPane3.add(problems[i][j], javax.swing.JLayeredPane.DEFAULT_LAYER);
+            }
+            problems[i][0].setText(i + "");
+            problems[i][1].setText(pr.name);
+            problems[i][2].setText(pr.code);
+            problems[i][3].setText(pr.difficulty + "");
+            problems[i][4].setText(pr.solvedBy + "");
+            problems[i][5].setText(pr.accuracy + "");
+        }
+        
+    }
+
+    private boolean handleFilled() {
+        if(handle1Field.getText().equals("") || handle1Field.getText().equals("Handle - 1")) {
+            JOptionPane.showMessageDialog(rootPane, "Please fill Handle-1");
+            return false;
+        }
+        if(handle2Field.getText().equals("") || handle2Field.getText().equals("Handle - 2")) {
+            JOptionPane.showMessageDialog(rootPane, "Please fill Handle-2");
+            return false;
+        }
+        return true;
+    }
+
+    private void showComparision(Coder coder1, Coder coder2) {
+        compareAcceptedLabel1.setText(coder1.accepted+"");
+        compareAcceptedLabel2.setText(coder2.accepted+"");
+        fillColorInComparision(compareAcceptedLabel1, compareAcceptedLabel2);
+        
+        compareContestsLabel1.setText(coder1.contests+"");
+        compareContestsLabel2.setText(coder2.contests+"");
+        fillColorInComparision(compareContestsLabel1, compareContestsLabel2);
+        
+        compareCteLabel1.setText(coder1.compilationErrors+"");
+        compareCteLabel2.setText(coder2.compilationErrors+"");
+        fillColorInComparision(compareCteLabel1, compareCteLabel2);
+        
+        compareRatingLabel1.setText(coder1.rating+"");
+        compareRatingLabel2.setText(coder2.rating+"");
+        fillColorInComparision(compareRatingLabel1, compareRatingLabel2);
+        
+        compareRteLabel1.setText(coder1.runtimeErrors+"");
+        compareRteLabel2.setText(coder2.runtimeErrors+"");
+        fillColorInComparision(compareRteLabel1, compareRteLabel2);
+        
+        compareSolvedLabel1.setText(coder1.problemsSolved+"");
+        compareSolvedLabel2.setText(coder2.problemsSolved+"");
+        fillColorInComparision(compareSolvedLabel1, compareSolvedLabel2);
+        
+        compareSubmissionsLabel1.setText(coder1.submissions+"");
+        compareSubmissionsLabel2.setText(coder2.submissions+"");
+        fillColorInComparision(compareSubmissionsLabel1, compareSubmissionsLabel2);
+        
+        compareTleLabel1.setText(coder1.timeLimitExceeds+"");
+        compareTleLabel2.setText(coder2.timeLimitExceeds+"");
+        fillColorInComparision(compareTleLabel1, compareTleLabel2);
+        
+        compareWaLabel1.setText(coder1.wrongAnswers+"");
+        compareWaLabel2.setText(coder2.wrongAnswers+"");
+        fillColorInComparision(compareWaLabel1, compareWaLabel2);
+    }
+
+    private void fillColorInComparision(JLabel label1, JLabel label2) {
+        int val1 = Integer.parseInt(label1.getText());
+        int val2 = Integer.parseInt(label2.getText());
+        if(val1 > val2) {
+            label1.setForeground(Color.GREEN);
+            label2.setForeground(Color.RED);
+        }
+        else if(val2 > val1) {
+            label2.setForeground(Color.GREEN);
+            label1.setForeground(Color.RED);
+        }
+        else {
+            label1.setForeground(Color.DARK_GRAY);
+            label2.setForeground(Color.DARK_GRAY);
+        }
+    }
+
+    private void underlineLabelFont(JLabel label) {
+        Font font = label.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        label.setFont(font.deriveFont(attributes));
+    }
+
+    private void makePieChart(Coder coder) {
+        
+    }
+
+    
 }

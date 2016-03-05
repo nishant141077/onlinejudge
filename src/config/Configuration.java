@@ -14,7 +14,7 @@ import java.net.Socket;
  * @author nishant
  */
 public class Configuration {
-    public static String SERVER_IP = "172.31.76.50";
+    public static String SERVER_IP = "127.0.0.1";
     public static int PORT = 9900;
     public static Socket socket = null;
 //    public static Socket bsocket = null;

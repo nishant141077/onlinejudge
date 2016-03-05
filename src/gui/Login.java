@@ -11,12 +11,14 @@
 package gui;
 
 import config.Configuration;
+import entities.Coder;
 import management.LoginManagement;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import management.CacheManagement;
+import management.CoderManagement;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 
@@ -129,8 +131,11 @@ private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         try {
             if(loginManagement.checkAuthenticity(handleField.getText(), passwordField.getText())) {
                 //Direct to User Dashboard
+                Dashboard dashboard = new Dashboard();
+                dashboard.initDashboard(new CoderManagement().getCoderDetails(handleField.getText()), 
+                        new CoderManagement().getProblemsList());
                 this.dispose();
-                new Dashboard().setVisible(true);
+                dashboard.setVisible(true);
             }
             else {
                 JOptionPane.showMessageDialog(rootPane, "Invalid credentials");
