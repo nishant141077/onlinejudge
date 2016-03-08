@@ -4,10 +4,13 @@
  */
 package config;
 
+import java.awt.Color;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -35,6 +38,25 @@ public class Configuration {
     };
     
     public static String gender[] = new String[]{"Male", "Female"};
+    public static String pLevelImagePath[] = new String[]{
+        "",
+        "/resources/level_1.png",
+        "/resources/level_2.png",
+        "/resources/level_3.png",
+        "/resources/level_4.png",
+        "/resources/level_5.png",
+        "/resources/level_6.png",
+        "/resources/level_7.png",
+        "/resources/level_8.png",
+        "/resources/level_9.png",
+        "/resources/level_10.png"
+    };
     
+    public static Color LGREEN = new Color(191, 241, 146);
+    public static Color LBLUE = new Color(204, 232, 227);
+    public static Color LBROWN = new Color(203, 203, 163);
+    public static String problemTags[] = new String[]{
+        "Adhoc", "Binary Search", "BST", "CRT", "Flow", "GCD", "KMP", "Matrix Expo", "Mod Arithmetic"
+    };
     /**************************************************/
 }

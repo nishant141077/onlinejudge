@@ -12,23 +12,27 @@ package gui;
 
 import entities.Coder;
 import entities.Problem;
+import entities.ProblemDetails;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
-import java.nio.charset.CoderMalfunctionError;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import javax.activation.MailcapCommandMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 import management.CacheManagement;
 import management.CoderManagement;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -36,13 +40,17 @@ import management.CoderManagement;
  */
 public class Dashboard extends javax.swing.JFrame {
 
+    private static void doTheAction(int x, int y) {
+        
+    }
+
     /** Creates new form Dashboard */
     public Dashboard() {
         initComponents();
         initPracticeProblems();
     }
 
-    JLabel problems[][];
+    static JLabel problems[][];
     public void initPracticeProblems() {
         problems = new JLabel[100][6];
         for(int i = 0;i<100;i++) {
@@ -61,37 +69,37 @@ public class Dashboard extends javax.swing.JFrame {
         //number
         problems[0][0].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         problems[0][0].setText("No.");
-        problems[0][0].setBounds(20, 20, 50, 30);
+        problems[0][0].setBounds(20, 60, 50, 30);
         jLayeredPane3.add(problems[0][0], javax.swing.JLayeredPane.DEFAULT_LAYER);
         
         //name
         problems[0][1].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         problems[0][1].setText("Problem Name");
-        problems[0][1].setBounds(70, 20, 595, 30);
+        problems[0][1].setBounds(70, 60, 595, 30);
         jLayeredPane3.add(problems[0][1], javax.swing.JLayeredPane.DEFAULT_LAYER);
         
         //code
         problems[0][2].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         problems[0][2].setText("Code");
-        problems[0][2].setBounds(665, 20, 150, 30);
+        problems[0][2].setBounds(665, 60, 150, 30);
         jLayeredPane3.add(problems[0][2], javax.swing.JLayeredPane.DEFAULT_LAYER);
         
         //difficulty
         problems[0][3].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         problems[0][3].setText("Difficulty");
-        problems[0][3].setBounds(815, 20, 150, 30);
+        problems[0][3].setBounds(815, 60, 150, 30);
         jLayeredPane3.add(problems[0][3], javax.swing.JLayeredPane.DEFAULT_LAYER);
         
         //solved by
         problems[0][4].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         problems[0][4].setText("Solved By");
-        problems[0][4].setBounds(965, 20, 150, 30);
+        problems[0][4].setBounds(965, 60, 150, 30);
         jLayeredPane3.add(problems[0][4], javax.swing.JLayeredPane.DEFAULT_LAYER);
         
         //accuracy
         problems[0][5].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         problems[0][5].setText("Accuracy");
-        problems[0][5].setBounds(1115, 20, 120, 30);
+        problems[0][5].setBounds(1115, 60, 120, 30);
         jLayeredPane3.add(problems[0][5], javax.swing.JLayeredPane.DEFAULT_LAYER);
         
     }
@@ -106,6 +114,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
         onjLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         tabbedPane = new javax.swing.JTabbedPane();
         profilePanel = new javax.swing.JPanel();
         jLayeredPane2 = new javax.swing.JLayeredPane();
@@ -167,15 +176,18 @@ public class Dashboard extends javax.swing.JFrame {
         compareRteLabel = new javax.swing.JLabel();
         compareTleLabel = new javax.swing.JLabel();
         compareContestsLabel = new javax.swing.JLabel();
+        pieChartPanel = new javax.swing.JPanel();
+        backgroundLabel = new javax.swing.JLabel();
         practicePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jLayeredPane3 = new javax.swing.JLayeredPane();
+        refreshButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 500, 500));
 
-        onjLabel.setBackground(new java.awt.Color(191, 241, 146));
-        onjLabel.setFont(new java.awt.Font("FreeMono", 1, 48));
+        onjLabel.setBackground(new java.awt.Color(204, 232, 227));
+        onjLabel.setFont(new java.awt.Font("FreeMono", 1, 48)); // NOI18N
         onjLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         onjLabel.setText("ONJ");
         onjLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -183,19 +195,25 @@ public class Dashboard extends javax.swing.JFrame {
         onjLabel.setBounds(10, 10, 120, 60);
         jLayeredPane1.add(onjLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
+        jButton1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logout.png"))); // NOI18N
+        jButton1.setText("Logout");
+        jButton1.setBounds(1150, 10, 140, 35);
+        jLayeredPane1.add(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         nameLabel.setFont(new java.awt.Font("Ubuntu", 1, 24));
         nameLabel.setText("Nishant Gupta");
-        nameLabel.setBounds(30, 170, 500, 40);
+        nameLabel.setBounds(30, 170, 410, 40);
         jLayeredPane2.add(nameLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        rankLabel.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
+        rankLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
         rankLabel.setText("Rank #1");
         rankLabel.setBounds(30, 270, 250, 30);
         jLayeredPane2.add(rankLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         aboutMeLabel.setFont(new java.awt.Font("Ubuntu", 1, 18));
         aboutMeLabel.setText("CSE Final Year");
-        aboutMeLabel.setBounds(30, 240, 480, 30);
+        aboutMeLabel.setBounds(30, 240, 410, 30);
         jLayeredPane2.add(aboutMeLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         handleLabel.setFont(new java.awt.Font("Ubuntu", 1, 18));
@@ -224,7 +242,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLayeredPane2.add(editProfileButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         statsLabel.setBackground(new java.awt.Color(203, 203, 163));
-        statsLabel.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        statsLabel.setFont(new java.awt.Font("Ubuntu", 1, 17));
         statsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         statsLabel.setText("Statistics");
         statsLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -233,7 +251,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLayeredPane2.add(statsLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         acceptedLabel.setBackground(new java.awt.Color(191, 241, 146));
-        acceptedLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        acceptedLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
         acceptedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acceptedLabel.setText("Accepted");
         acceptedLabel.setToolTipText("Accepted solutions");
@@ -303,7 +321,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLayeredPane2.add(contestsLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         problemSolvedLabel.setBackground(new java.awt.Color(191, 241, 146));
-        problemSolvedLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        problemSolvedLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
         problemSolvedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         problemSolvedLabel.setText("Solved");
         problemSolvedLabel.setToolTipText("Problems Solved");
@@ -313,7 +331,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLayeredPane2.add(problemSolvedLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         acValueLabel.setBackground(new java.awt.Color(225, 218, 174));
-        acValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        acValueLabel.setFont(new java.awt.Font("Ubuntu", 1, 15));
         acValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acValueLabel.setText("0");
         acValueLabel.setToolTipText("Accepted solutions");
@@ -392,7 +410,7 @@ public class Dashboard extends javax.swing.JFrame {
         psValueLabel.setBounds(12, 480, 97, 50);
         jLayeredPane2.add(psValueLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        ratingLabel.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
+        ratingLabel.setFont(new java.awt.Font("Ubuntu", 1, 16));
         ratingLabel.setText("Rating : 1000 ");
         ratingLabel.setBounds(30, 300, 190, 30);
         jLayeredPane2.add(ratingLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -640,6 +658,24 @@ public class Dashboard extends javax.swing.JFrame {
         compareContestsLabel.setBounds(986, 440, 100, 30);
         jLayeredPane2.add(compareContestsLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
+        javax.swing.GroupLayout pieChartPanelLayout = new javax.swing.GroupLayout(pieChartPanel);
+        pieChartPanel.setLayout(pieChartPanelLayout);
+        pieChartPanelLayout.setHorizontalGroup(
+            pieChartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 320, Short.MAX_VALUE)
+        );
+        pieChartPanelLayout.setVerticalGroup(
+            pieChartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 320, Short.MAX_VALUE)
+        );
+
+        pieChartPanel.setBounds(465, 50, 320, 320);
+        jLayeredPane2.add(pieChartPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        backgroundLabel.setOpaque(true);
+        backgroundLabel.setBounds(0, 0, 1272, 572);
+        jLayeredPane2.add(backgroundLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
         profilePanelLayout.setHorizontalGroup(
@@ -656,6 +692,13 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jLayeredPane3.setPreferredSize(new java.awt.Dimension(1260, 700));
+
+        refreshButton.setFont(new java.awt.Font("Ubuntu", 1, 18));
+        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/view-refresh.png"))); // NOI18N
+        refreshButton.setText("Refresh");
+        refreshButton.setBounds(530, 10, 200, 40);
+        jLayeredPane3.add(refreshButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         jScrollPane1.setViewportView(jLayeredPane3);
 
         javax.swing.GroupLayout practicePanelLayout = new javax.swing.GroupLayout(practicePanel);
@@ -735,9 +778,7 @@ private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         }
     }
 }//GEN-LAST:event_compareButtonActionPerformed
-int cx = 350;
-int y = 0;
-JButton button[];
+
     /**
      * @param args the command line arguments
      */
@@ -777,6 +818,7 @@ JButton button[];
     private javax.swing.JLabel aboutMeLabel;
     private javax.swing.JLabel acValueLabel;
     private javax.swing.JLabel acceptedLabel;
+    private javax.swing.JLabel backgroundLabel;
     private javax.swing.JLabel compareAcceptedLabel;
     private javax.swing.JLabel compareAcceptedLabel1;
     private javax.swing.JLabel compareAcceptedLabel2;
@@ -814,6 +856,7 @@ JButton button[];
     private javax.swing.JTextField handle1Field;
     private javax.swing.JTextField handle2Field;
     private javax.swing.JLabel handleLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JLayeredPane jLayeredPane3;
@@ -823,12 +866,14 @@ JButton button[];
     private javax.swing.JLabel nameLabel;
     private javax.swing.JLabel onjLabel;
     private javax.swing.JLabel photoLabel;
+    private javax.swing.JPanel pieChartPanel;
     private javax.swing.JPanel practicePanel;
     private javax.swing.JLabel problemSolvedLabel;
     private javax.swing.JPanel profilePanel;
     private javax.swing.JLabel psValueLabel;
     private javax.swing.JLabel rankLabel;
     private javax.swing.JLabel ratingLabel;
+    private javax.swing.JButton refreshButton;
     private javax.swing.JLabel rteValueLabel;
     private javax.swing.JLabel runtimeErrorLabel;
     private javax.swing.JLabel statsLabel;
@@ -858,20 +903,21 @@ JButton button[];
         contestsValueLabel.setText(coder.contests+"");
         makePieChart(coder);
         if(coder.rating >= 1000 && coder.rating < 1400) {
-            levelLabel.setIcon(new ImageIcon("src/resources/rookie.png"));
+            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/rookie.png")));
         }
         else if(coder.rating >= 1400 && coder.rating < 1600) {
-            levelLabel.setIcon(new ImageIcon("src/resources/pro.png"));
+            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/pro.png")));
         }
         else if(coder.rating >= 1600 && coder.rating < 1900) {
-            levelLabel.setIcon(new ImageIcon("src/resources/master.png"));
+            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/master.png")));
         }
         else if(coder.rating >= 1900) {
-            levelLabel.setIcon(new ImageIcon("src/resources/champion.png"));
+            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/champion.png")));
         }
         /*******************************************************/
         
         /** Problem display **/
+        CacheManagement.addCache(problemsList);  //cache the problemList
         int i = 0;
         for(Problem pr : problemsList) {
             i++;
@@ -880,6 +926,9 @@ JButton button[];
                 problems[i][j].setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
                 problems[i][j].setBorder(javax.swing.BorderFactory.createEtchedBorder());
                 problems[i][j].setOpaque(true);
+                
+                //add mouse listener to the labels
+                addListener(i, j);
                 
                 //text alignment
                 if(j == 1)
@@ -972,6 +1021,7 @@ JButton button[];
             label1.setForeground(Color.DARK_GRAY);
             label2.setForeground(Color.DARK_GRAY);
         }
+        
     }
 
     private void underlineLabelFont(JLabel label) {
@@ -982,7 +1032,51 @@ JButton button[];
     }
 
     private void makePieChart(Coder coder) {
-        
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        pieDataset.setValue("WA", new Integer(coder.wrongAnswers));
+        pieDataset.setValue("CTE", new Integer(coder.compilationErrors));
+        pieDataset.setValue("AC", new Integer(coder.accepted));
+        pieDataset.setValue("TLE", new Integer(coder.timeLimitExceeds));
+        pieDataset.setValue("RTE", new Integer(coder.runtimeErrors));
+        JFreeChart chart = ChartFactory.createPieChart("", pieDataset, true, true, true);
+        pieChartPanel.setLayout(new BorderLayout());
+        ChartPanel chartPanel = new ChartPanel(chart);
+        pieChartPanel.add(chartPanel, BorderLayout.CENTER);
+        pieChartPanel.validate();
+    }
+
+    private void addListener(final int i, final int j) {
+        problems[i][j].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                if(i == 0) {
+                    //sorting functionality
+                }
+                else {
+                    switch(j) {
+                        case 0:
+                            break; //do nothing
+                        case 1:
+                            try {
+                                createNewProblemTab(problems[i][2].getText());
+                            } catch (IOException ex) {
+                                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ClassNotFoundException ex) {
+                                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            break;
+                        default : break;
+                    }
+                }
+            }
+
+            private void createNewProblemTab(String problemCode) throws IOException, ClassNotFoundException {
+                ProblemPanel problemPanel = new ProblemPanel();
+                tabbedPane.addTab(problemCode, problemPanel);
+                ProblemDetails problemDetails = new CoderManagement().getProblemDetails(problemCode);
+                problemPanel.initComponents(problemDetails);
+            }
+        });
     }
 
     

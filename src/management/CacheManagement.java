@@ -4,6 +4,9 @@
  */
 package management;
 
+import entities.Problem;
+import java.util.ArrayList;
+import java.util.List;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -52,5 +55,29 @@ public class CacheManagement {
         cache = cacheManager.getCache("loginCache");
         cache.put(new Element("handle", handle));
         cache.put(new Element("password", password));
+    }
+
+    public static void addCache(List<Problem> problemsList) {
+        cacheManager = CacheManager.getInstance();
+        cache = cacheManager.getCache("problemListCache");
+        
+        if(cache == null) {
+            cacheManager.addCache("problemListCache");
+        }
+        cache = cacheManager.getCache("problemListCache");
+        cache.put(new Element("problems", problemsList));
+    }
+    
+    public static List<Problem> getProblemList() {
+        cacheManager = CacheManager.getInstance();
+        cache = cacheManager.getCache("problemListCache");
+        if(cache == null) {
+            return new ArrayList<Problem>();
+        }
+        element = cache.get("problems");
+        if(element == null) {
+            return new ArrayList<Problem>();
+        }
+        return (List<Problem>)element.getObjectValue();
     }
 }

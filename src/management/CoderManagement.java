@@ -6,6 +6,7 @@ package management;
 
 import entities.Coder;
 import entities.Problem;
+import entities.ProblemDetails;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -37,5 +38,17 @@ public class CoderManagement implements Serializable {
         Message reply = new Message();
         reply = Communication.receive();
         return reply.problemsList;
+    }
+
+    public ProblemDetails getProblemDetails(String problemCode) throws IOException, ClassNotFoundException {
+        Message message = new Message();
+        message.code = 8;
+        message.problemDetails = new ProblemDetails(problemCode);
+        
+        Communication.send(message);
+        
+        Message reply = new Message();
+        reply = Communication.receive();
+        return reply.problemDetails;
     }
 }
