@@ -10,7 +10,9 @@
  */
 package gui;
 
+import config.Configuration;
 import entities.Coder;
+import entities.DataStore;
 import entities.Problem;
 import entities.ProblemDetails;
 import java.awt.BorderLayout;
@@ -20,13 +22,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.text.BadLocationException;
 import management.CacheManagement;
 import management.CoderManagement;
 import org.jfree.chart.ChartFactory;
@@ -40,9 +42,6 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class Dashboard extends javax.swing.JFrame {
 
-    private static void doTheAction(int x, int y) {
-        
-    }
 
     /** Creates new form Dashboard */
     public Dashboard() {
@@ -50,17 +49,23 @@ public class Dashboard extends javax.swing.JFrame {
         initPracticeProblems();
     }
 
-    static JLabel problems[][];
+    JLabel problems[][];
+    Color color[][];
+    int problemsCount;
+    
     public void initPracticeProblems() {
         problems = new JLabel[100][6];
+        color = new Color[100][6];
+        problemsCount = 0;
         for(int i = 0;i<100;i++) {
             for(int j = 0;j<6;j++) {
                 problems[i][j] = new JLabel();
+                color[i][j] = new Color(255, 255, 255);
             }
         }
         
         for(int i=0;i<6;i++) {
-            problems[0][i].setBackground(new java.awt.Color(203, 203, 163));
+            problems[0][i].setBackground(Configuration.LBROWN);
             problems[0][i].setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
             problems[0][i].setBorder(javax.swing.BorderFactory.createEtchedBorder());
             problems[0][i].setOpaque(true);
@@ -187,7 +192,7 @@ public class Dashboard extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 500, 500));
 
         onjLabel.setBackground(new java.awt.Color(204, 232, 227));
-        onjLabel.setFont(new java.awt.Font("FreeMono", 1, 48)); // NOI18N
+        onjLabel.setFont(new java.awt.Font("FreeMono", 1, 48));
         onjLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         onjLabel.setText("ONJ");
         onjLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -195,11 +200,13 @@ public class Dashboard extends javax.swing.JFrame {
         onjLabel.setBounds(10, 10, 120, 60);
         jLayeredPane1.add(onjLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jButton1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Ubuntu", 1, 18));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logout.png"))); // NOI18N
         jButton1.setText("Logout");
         jButton1.setBounds(1150, 10, 140, 35);
         jLayeredPane1.add(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        tabbedPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
         nameLabel.setFont(new java.awt.Font("Ubuntu", 1, 24));
         nameLabel.setText("Nishant Gupta");
@@ -696,6 +703,11 @@ public class Dashboard extends javax.swing.JFrame {
         refreshButton.setFont(new java.awt.Font("Ubuntu", 1, 18));
         refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/view-refresh.png"))); // NOI18N
         refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
         refreshButton.setBounds(530, 10, 200, 40);
         jLayeredPane3.add(refreshButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -756,7 +768,6 @@ private void handle2FieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_handle2FieldMouseClicked
 
 private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareButtonActionPerformed
-// TODO add your handling code here:
     if(handleFilled()) {
         try {
             CoderManagement coderManagement = new CoderManagement();
@@ -778,6 +789,18 @@ private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         }
     }
 }//GEN-LAST:event_compareButtonActionPerformed
+
+private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+    CoderManagement coderManagement = new CoderManagement();
+    try {
+        problemsList = coderManagement.getProblemsList();
+        solvedProblemsList = coderManagement.getSolvedProblemsList(handle);
+        attemptedUnsolvedProblemsList = coderManagement.getAttemptedUnsolvedProblemsList(handle);
+        displayProblems();
+    } catch(Exception exception) {
+        JOptionPane.showMessageDialog(practicePanel, "Client : " + exception.getMessage());
+    }
+}//GEN-LAST:event_refreshButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -887,74 +910,8 @@ private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JLabel wrongAnswerLabel;
     // End of variables declaration//GEN-END:variables
 
-    void initDashboard(Coder coder, List<Problem> problemsList) {
-        /** Coder details **/
-        handleLabel.setText(coder.handle);
-        ratingLabel.setText("Rating : " + coder.rating+"");
-        nameLabel.setText(coder.name);
-        aboutMeLabel.setText("About me : " + coder.aboutMe);
-        psValueLabel.setText(coder.problemsSolved+"");
-        subsValueLabel.setText(coder.submissions+"");
-        acValueLabel.setText(coder.accepted+"");
-        cteValueLabel.setText(coder.compilationErrors+"");
-        waValueLabel.setText(coder.wrongAnswers+"");
-        rteValueLabel.setText(coder.runtimeErrors+"");
-        tleValueLabel.setText(coder.timeLimitExceeds+"");
-        contestsValueLabel.setText(coder.contests+"");
-        makePieChart(coder);
-        if(coder.rating >= 1000 && coder.rating < 1400) {
-            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/rookie.png")));
-        }
-        else if(coder.rating >= 1400 && coder.rating < 1600) {
-            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/pro.png")));
-        }
-        else if(coder.rating >= 1600 && coder.rating < 1900) {
-            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/master.png")));
-        }
-        else if(coder.rating >= 1900) {
-            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/champion.png")));
-        }
-        /*******************************************************/
-        
-        /** Problem display **/
-        CacheManagement.addCache(problemsList);  //cache the problemList
-        int i = 0;
-        for(Problem pr : problemsList) {
-            i++;
-            for(int j = 0;j<6;j++) {     
-                problems[i][j].setBackground(new java.awt.Color(255, 255, 255));
-                problems[i][j].setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
-                problems[i][j].setBorder(javax.swing.BorderFactory.createEtchedBorder());
-                problems[i][j].setOpaque(true);
-                
-                //add mouse listener to the labels
-                addListener(i, j);
-                
-                //text alignment
-                if(j == 1)
-                    problems[i][j].setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-                else if(j == 5)
-                    problems[i][j].setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-                else 
-                    problems[i][j].setHorizontalAlignment(problems[i-1][j].getHorizontalAlignment());
-                   
-                problems[i][j].setBounds(problems[i-1][j].getX(), problems[i-1][j].getY() +
-                        problems[i-1][j].getHeight(), problems[i-1][j].getWidth(), problems[i-1][j].getHeight());
-                
-                //make name of problem underlined
-                //underlineLabelFont(problems[i][1]);
-                //problems[i][1].setForeground(Color.BLUE);
-                jLayeredPane3.add(problems[i][j], javax.swing.JLayeredPane.DEFAULT_LAYER);
-            }
-            problems[i][0].setText(i + "");
-            problems[i][1].setText(pr.name);
-            problems[i][2].setText(pr.code);
-            problems[i][3].setText(pr.difficulty + "");
-            problems[i][4].setText(pr.solvedBy + "");
-            problems[i][5].setText(pr.accuracy + "");
-        }
-        
-    }
+    private String handle;
+    
 
     private boolean handleFilled() {
         if(handle1Field.getText().equals("") || handle1Field.getText().equals("Handle - 1")) {
@@ -1045,7 +1002,7 @@ private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         pieChartPanel.validate();
     }
 
-    private void addListener(final int i, final int j) {
+    private void addListener(final int i, final int j, final String handle) {
         problems[i][j].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -1058,26 +1015,162 @@ private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
                             break; //do nothing
                         case 1:
                             try {
-                                createNewProblemTab(problems[i][2].getText());
-                            } catch (IOException ex) {
-                                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (ClassNotFoundException ex) {
-                                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                                if(tabAlreadyPresent(problems[i][2].getText()) == false)
+                                    createNewProblemTab(problems[i][2].getText());
+                            } catch (Exception ex) {
+                                JOptionPane.showMessageDialog(practicePanel, "Client : " + ex.getMessage());
                             }
                             break;
                         default : break;
                     }
                 }
             }
+            
+            @Override
+            public void mouseEntered(MouseEvent evt) {
+                if(j == 1) {
+                    problems[i][1].setBackground(Configuration.LBLUE);
+                }
+            }
 
-            private void createNewProblemTab(String problemCode) throws IOException, ClassNotFoundException {
-                ProblemPanel problemPanel = new ProblemPanel();
+            @Override
+            public void mouseExited(MouseEvent evt) {
+                if(j == 1) { 
+                    problems[i][1].setBackground(color[i][j]);
+                }
+            }
+            
+            private void createNewProblemTab(String problemCode) throws IOException, ClassNotFoundException, BadLocationException {
+                ProblemPanel problemPanel = new ProblemPanel(handle);
                 tabbedPane.addTab(problemCode, problemPanel);
-                ProblemDetails problemDetails = new CoderManagement().getProblemDetails(problemCode);
-                problemPanel.initComponents(problemDetails);
+                
+                ProblemDetails problemDetails = new CoderManagement().getProblemDetails(problemCode, handle);
+                problemPanel.initComponents(problemPanel, tabbedPane, problemDetails);
+            }
+
+            private boolean tabAlreadyPresent(String code) {
+                for(int i = 0;i<tabbedPane.getTabCount();i++) {
+                    String title = tabbedPane.getTitleAt(i);
+                    if(title.equals(code)) {
+                        tabbedPane.setSelectedIndex(i);
+                        return true;
+                    }
+                }
+                return false;
             }
         });
     }
+
+    private String getRoundedAccuracy(double accuracy) {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(accuracy);
+    }
+
+    private void displayProblems() {
+        //CacheManagement.cacheProblems(problemsList);  //cache the problemList
+        int i = 0;
+        for(Problem pr : problemsList) {
+            i++;
+            Color bgColor = getBackgroundColor(pr.code);
+            for(int j = 0;j<6;j++) {     
+                problems[i][j].setBackground(bgColor);
+                color[i][j] = problems[i][j].getBackground();
+                problems[i][j].setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+                problems[i][j].setBorder(javax.swing.BorderFactory.createEtchedBorder());
+                problems[i][j].setOpaque(true);
+                
+                //add mouse listener to the labels
+                addListener(i, j, handle);
+                
+                //text alignment
+                if(j == 1)
+                    problems[i][j].setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                else if(j == 5)
+                    problems[i][j].setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                else 
+                    problems[i][j].setHorizontalAlignment(problems[i-1][j].getHorizontalAlignment());
+                   
+                problems[i][j].setBounds(problems[i-1][j].getX(), problems[i-1][j].getY() +
+                        problems[i-1][j].getHeight(), problems[i-1][j].getWidth(), problems[i-1][j].getHeight());
+                
+                //make name of problem underlined
+                //underlineLabelFont(problems[i][1]);
+                //problems[i][1].setForeground(Color.BLUE);
+                if(i > problemsCount)
+                    jLayeredPane3.add(problems[i][j], javax.swing.JLayeredPane.DEFAULT_LAYER);
+            }
+            problems[i][0].setText(i + "");
+            problems[i][1].setText(pr.name);
+            problems[i][2].setText(pr.code);
+            problems[i][3].setText(pr.difficulty + "");
+            problems[i][4].setText(pr.solvedBy + "");
+            problems[i][5].setText(getRoundedAccuracy(pr.accuracy));
+        }
+        problemsCount = problemsList.size();
+    }
+
+    List<Problem> problemsList;
+    List<Problem> solvedProblemsList;
+    List<Problem> attemptedUnsolvedProblemsList;
+    
+    void initDashboard(Coder coder, List<Problem> problemsList, List<String> tagsList, 
+            List<Problem> solvedProblemsList, List<Problem> attemptedUnsolvedProblemsList) {
+        handle = coder.handle;
+        this.solvedProblemsList = solvedProblemsList;
+        this.attemptedUnsolvedProblemsList = attemptedUnsolvedProblemsList;
+        this.problemsList = problemsList;
+        
+        /** Coder details **/
+        handleLabel.setText(coder.handle);
+        ratingLabel.setText("Rating : " + coder.rating+"");
+        nameLabel.setText(coder.name);
+        aboutMeLabel.setText("About me : " + coder.aboutMe);
+        psValueLabel.setText(coder.problemsSolved+"");
+        subsValueLabel.setText(coder.submissions+"");
+        acValueLabel.setText(coder.accepted+"");
+        cteValueLabel.setText(coder.compilationErrors+"");
+        waValueLabel.setText(coder.wrongAnswers+"");
+        rteValueLabel.setText(coder.runtimeErrors+"");
+        tleValueLabel.setText(coder.timeLimitExceeds+"");
+        contestsValueLabel.setText(coder.contests+"");
+        makePieChart(coder);
+        if(coder.rating >= 1000 && coder.rating < 1400) {
+            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/rookie.png")));
+        }
+        else if(coder.rating >= 1400 && coder.rating < 1600) {
+            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/pro.png")));
+        }
+        else if(coder.rating >= 1600 && coder.rating < 1900) {
+            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/master.png")));
+        }
+        else if(coder.rating >= 1900) {
+            levelLabel.setIcon(new ImageIcon(getClass().getResource("/resources/champion.png")));
+        }
+        /*******************************************************/
+        
+        //Problem display
+        displayProblems();
+        
+        //Add tagList to data store
+        DataStore.addTagsList(tagsList);
+    }
+
+    private Color getBackgroundColor(String code) {
+        //first find in solvedProblemsList
+        for(Problem pr : solvedProblemsList) {
+            if(pr.code.equals(code)) {
+                return Configuration.LGREEN;
+            }
+        }
+        
+        for(Problem pr : attemptedUnsolvedProblemsList) {
+            if(pr.code.equals(code)) {
+                return Color.PINK;
+            }
+        }
+        return Color.WHITE;
+    }
+
 
     
 }

@@ -10,18 +10,12 @@
  */
 package gui;
 
-import config.Configuration;
-import entities.Coder;
 import management.LoginManagement;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import management.CacheManagement;
 import management.CoderManagement;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-
 /**
  *
  * @author nishant
@@ -126,14 +120,16 @@ public class Login extends javax.swing.JFrame {
 private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
     if(formComplete()) {
         CacheManagement.addCache(handleField.getText(), passwordField.getText());    
-        
         LoginManagement loginManagement = new LoginManagement();
         try {
             if(loginManagement.checkAuthenticity(handleField.getText(), passwordField.getText())) {
                 //Direct to User Dashboard
                 Dashboard dashboard = new Dashboard();
-                dashboard.initDashboard(new CoderManagement().getCoderDetails(handleField.getText()), 
-                        new CoderManagement().getProblemsList());
+                CoderManagement coderManagement = new CoderManagement();
+                dashboard.initDashboard(coderManagement.getCoderDetails(handleField.getText()), 
+                        coderManagement.getProblemsList(), coderManagement.getTagsList(), 
+                        coderManagement.getSolvedProblemsList(handleField.getText()), 
+                        coderManagement.getAttemptedUnsolvedProblemsList(handleField.getText()));
                 this.dispose();
                 dashboard.setVisible(true);
             }

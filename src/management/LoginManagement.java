@@ -40,6 +40,7 @@ public class LoginManagement implements Serializable {
     }
 
     public boolean checkAuthenticity(String handle, String password) throws IOException, ClassNotFoundException {
+        System.out.println("checking Coder details");
         Message message = new Message();
         message.code = 2;
         message.user = new User(handle, password);
@@ -48,7 +49,7 @@ public class LoginManagement implements Serializable {
         
         Message reply = new Message();
         reply = Communication.receive();
-        
+        System.out.println("authorized successfully");
         return reply.status;
     }
 

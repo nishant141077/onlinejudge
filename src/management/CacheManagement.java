@@ -57,7 +57,7 @@ public class CacheManagement {
         cache.put(new Element("password", password));
     }
 
-    public static void addCache(List<Problem> problemsList) {
+    public static void cacheProblems(List<Problem> problemsList) {
         cacheManager = CacheManager.getInstance();
         cache = cacheManager.getCache("problemListCache");
         
@@ -79,5 +79,42 @@ public class CacheManagement {
             return new ArrayList<Problem>();
         }
         return (List<Problem>)element.getObjectValue();
+    }
+    
+    public static void cacheTags(List<String> tagsList) {
+        cacheManager = CacheManager.getInstance();
+        cache = cacheManager.getCache("tagsListCache");
+        
+        if(cache == null) {
+            cacheManager.addCache("tagsListCache");
+        }
+        cache = cacheManager.getCache("tagsListCache");
+        cache.put(new Element("tags", tagsList));
+    }
+    
+    public static List<String> getTagsList() {
+        cacheManager = CacheManager.getInstance();
+        cache = cacheManager.getCache("tagsListCache");
+        
+        if(cache == null) {
+            return new ArrayList<String>();
+        }
+        element = cache.get("tags");
+        if(element == null) {
+            return new ArrayList<String>();
+        }
+        return (List<String>)element.getObjectValue();
+    }
+
+    public void updateTagsListCache(List<String> tagsList) {
+        cacheManager = CacheManager.getInstance();
+        cacheManager.removeCache("tagsListCache");
+        cache = cacheManager.getCache("tagsListCache");
+        
+        if(cache == null) {
+            cacheManager.addCache("tagsListCache");
+        }
+        cache = cacheManager.getCache("tagsListCache");
+        cache.put(new Element("tags", tagsList));
     }
 }
