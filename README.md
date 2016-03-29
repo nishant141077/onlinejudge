@@ -2,7 +2,7 @@
 local judge for programming
 
 This is an online judge, a PC application which lets you login to a server (create an account) and have a
-competitive programming experience through difeerent varities of problems with a range of difficulty levels.
+competitive programming experience through different varities of problems with a range of difficulty levels.
 
 It lets you tag different problems with tags you find suitable apart from already available tags which give
 a basic hint regarding the approach to solve the problem.
