@@ -215,6 +215,7 @@
                           <Font name="Ubuntu" size="15" style="1"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Edit Profile"/>
+                        <Property name="horizontalTextPosition" type="int" value="4"/>
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">

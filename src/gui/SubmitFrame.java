@@ -291,7 +291,7 @@ private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             statusImageLabel.setIcon(new ImageIcon(getClass().getResource("/resources/wa.png")));
         }
         else if(submissionStatus.status.equals("Accepted")) {
-            statusLabel.setText(submissionStatus.status + " - " + getRoundedTime(submissionStatus.time));
+            statusLabel.setText(submissionStatus.status + " - " + getRoundedTime(submissionStatus.time) + "s");
             statusImageLabel.setIcon(new ImageIcon(getClass().getResource("/resources/ac.png")));
         }
         else if(submissionStatus.status.equals("Compilation Error")) {
