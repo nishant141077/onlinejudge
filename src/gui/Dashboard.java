@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -129,7 +131,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
         onjLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
         tabbedPane = new javax.swing.JTabbedPane();
         profilePanel = new javax.swing.JPanel();
         jLayeredPane2 = new javax.swing.JLayeredPane();
@@ -202,7 +204,7 @@ public class Dashboard extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 500, 500));
 
         onjLabel.setBackground(new java.awt.Color(204, 232, 227));
-        onjLabel.setFont(new java.awt.Font("FreeMono", 1, 48));
+        onjLabel.setFont(new java.awt.Font("FreeMono", 1, 48)); // NOI18N
         onjLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         onjLabel.setText("ONJ");
         onjLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -210,11 +212,16 @@ public class Dashboard extends javax.swing.JFrame {
         onjLabel.setBounds(10, 10, 120, 60);
         jLayeredPane1.add(onjLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jButton1.setFont(new java.awt.Font("Ubuntu", 1, 18));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logout.png"))); // NOI18N
-        jButton1.setText("Logout");
-        jButton1.setBounds(1150, 10, 140, 35);
-        jLayeredPane1.add(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        logoutButton.setFont(new java.awt.Font("Ubuntu", 1, 18));
+        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logout.png"))); // NOI18N
+        logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
+        logoutButton.setBounds(1150, 10, 140, 35);
+        jLayeredPane1.add(logoutButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         tabbedPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
@@ -253,7 +260,7 @@ public class Dashboard extends javax.swing.JFrame {
         levelLabel.setBounds(200, 61, 99, 99);
         jLayeredPane2.add(levelLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        editProfileButton.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        editProfileButton.setFont(new java.awt.Font("Ubuntu", 1, 15));
         editProfileButton.setText("Edit Profile");
         editProfileButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         editProfileButton.setBounds(660, 10, 130, 30);
@@ -813,6 +820,12 @@ private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     }
 }//GEN-LAST:event_refreshButtonActionPerformed
 
+private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+    //logout of tables as required
+    this.dispose();
+    new Login().setVisible(true);
+}//GEN-LAST:event_logoutButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -890,13 +903,13 @@ private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JTextField handle1Field;
     private javax.swing.JTextField handle2Field;
     private javax.swing.JLabel handleLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JLayeredPane jLayeredPane3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel levelLabel;
+    private javax.swing.JButton logoutButton;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JLabel onjLabel;
     private javax.swing.JLabel photoLabel;

@@ -153,4 +153,17 @@ public class CoderManagement implements Serializable {
         reply = Communication.receive();
         return reply.problemsList;
     }
+
+    public List<Submission> getMySubmissionsList(String handle, String code) throws IOException, ClassNotFoundException {
+        Message message = new Message();
+        message.code = 16;
+        
+        message.coder = new Coder(handle);
+        message.problemDetails = new ProblemDetails(code);
+        Communication.send(message);
+        
+        Message reply = new Message();
+        reply = Communication.receive();
+        return reply.mySubmissions;
+    }
 }

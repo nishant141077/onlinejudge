@@ -8,6 +8,7 @@ import config.Configuration;
 import entities.DataStore;
 import entities.ProblemDetails;
 import entities.ProblemStats;
+import entities.Submission;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -527,6 +528,26 @@ public class ProblemPanel extends JPanel {
             public void mouseExited(MouseEvent evt) {
                 mySubmissionsLabel.setBackground(Configuration.LGREEN);
                 mySubmissionsLabel.setFont(new Font("Ubuntu", 1, 17));
+            }
+            
+            @Override
+            public void mouseReleased(MouseEvent evt) {
+                String title = "MySubs-" + problemDetails.code;
+                for(int i = 0;i<tabbedPane.getTabCount();i++) {
+                    if(tabbedPane.getTitleAt(i).equals(title)) {
+                        tabbedPane.setSelectedIndex(i);
+                        return ;
+                    }
+                }
+                try {
+                    List<Submission> mySubmissions = new CoderManagement()
+                            .getMySubmissionsList(handle, problemDetails.code);
+                    MySubmissionsPanel mySubmissionsPanel = new MySubmissionsPanel(handle, problemDetails.code);
+                    tabbedPane.add(title, mySubmissionsPanel);
+                    mySubmissionsPanel.initComponents(mySubmissions, tabbedPane, mySubmissionsPanel);
+                } catch(Exception exception) {
+                    JOptionPane.showMessageDialog(layeredPane, "Client : " + exception.getMessage());
+                }
             }
         });
     }
