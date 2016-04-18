@@ -13,6 +13,7 @@ package gui;
 import config.Configuration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
 import socket.Connector;
 
@@ -76,6 +77,8 @@ public class Loader extends javax.swing.JFrame {
         if(connector.connectToServer()) {
             this.dispose();
             login = new Login();
+            Configuration.desKey = new SecretKeySpec(Configuration.encryptionKey, 0, 
+                Configuration.encryptionKey.length, "DES");
             login.setVisible(true);
         }
     }

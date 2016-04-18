@@ -14,6 +14,7 @@ import config.Configuration;
 import entities.User;
 import javax.swing.JOptionPane;
 import management.LoginManagement;
+import management.Security;
 
 /**
  *
@@ -184,7 +185,7 @@ private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             
             if(loginManagement.searchHandle(handleField.getText()) == false) {
                 if(loginManagement.registerUser(new User(handleField.getText(), nameField.getText(),
-                        passwordField.getText(), securityQuesComboBox.getSelectedItem().toString(),
+                        Security.getEncryptedPassword(passwordField.getText()), securityQuesComboBox.getSelectedItem().toString(),
                         answerField.getText(), genderComboBox.getSelectedItem().toString()))) {
                     this.dispose();
                     login.setVisible(true);

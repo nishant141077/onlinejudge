@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import management.CacheManagement;
 import management.CoderManagement;
+import management.Security;
 /**
  *
  * @author nishant
@@ -122,7 +123,8 @@ private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         CacheManagement.addCache(handleField.getText(), passwordField.getText());    
         LoginManagement loginManagement = new LoginManagement();
         try {
-            if(loginManagement.checkAuthenticity(handleField.getText(), passwordField.getText())) {
+            if(loginManagement.checkAuthenticity(handleField.getText(), 
+                    Security.getEncryptedPassword(passwordField.getText()))) {
                 //Direct to User Dashboard
                 Dashboard dashboard = new Dashboard();
                 CoderManagement coderManagement = new CoderManagement();

@@ -4,6 +4,7 @@
  */
 package management;
 
+import config.Configuration;
 import entities.User;
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,7 +19,7 @@ public class LoginManagement implements Serializable {
     public boolean  checkValidity(String handle, String question, String answer) throws IOException, ClassNotFoundException {
         Message message = new Message();
         message.code = 3;
-        message.user = new User(handle, "", "", question, answer, "");
+        message.user = new User(handle, "", null, question, answer, "");
         
         Communication.send(message);
         
@@ -30,7 +31,7 @@ public class LoginManagement implements Serializable {
     public boolean searchHandle(String handle) throws IOException, ClassNotFoundException {
         Message message = new Message();
         message.code = 1;
-        message.user = new User(handle, "");
+        message.user = new User(handle, null);
    
         Communication.send(message);
         
@@ -44,6 +45,7 @@ public class LoginManagement implements Serializable {
         Message message = new Message();
         message.code = 2;
         message.user = new User(handle, password);
+        message.desKey = Configuration.desKey;
         
         Communication.send(message);
         
@@ -69,6 +71,7 @@ public class LoginManagement implements Serializable {
         Message message = new Message();
         message.code = 5;
         message.user = user;
+        message.desKey = Configuration.desKey;
         
         Communication.send(message);
         

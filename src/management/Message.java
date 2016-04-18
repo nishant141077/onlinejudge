@@ -11,8 +11,10 @@ import entities.ProblemStats;
 import entities.Submission;
 import entities.User;
 import java.io.Serializable;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
+import javax.crypto.SecretKey;
 
 /**
  *
@@ -22,6 +24,7 @@ public class Message implements Serializable {
     private static final long serialVersionUID = 100;
     public int code;
     public User user;
+    public SecretKey desKey;
     public boolean status;
     public String displayMessage;
     public Coder coder;

@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import javax.crypto.SecretKey;
 /**
  *
  * @author nishant
@@ -30,6 +31,9 @@ public class Configuration {
         "What is the last name of your favorite teacher?",
         "What was the name of your elementary school?"
     };
+    
+    public static byte[] encryptionKey = {'O', 'n', 'l', 'j', '2', '0', '1', '6'};
+    public static SecretKey desKey = null;
     
     public static String gender[] = new String[]{"Male", "Female"};
     public static String pLevelImagePath[] = new String[]{

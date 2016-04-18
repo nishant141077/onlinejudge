@@ -12,6 +12,7 @@ package gui;
 
 import javax.swing.JOptionPane;
 import management.LoginManagement;
+import management.Security;
 
 /**
  *
@@ -115,7 +116,7 @@ private void resetPasswordButtonActionPerformed(java.awt.event.ActionEvent evt) 
             LoginManagement loginManagement = new LoginManagement();
             
             try {
-                if(loginManagement.resetPassword(handle, newPasswordField.getText())) {
+                if(loginManagement.resetPassword(handle, Security.getEncryptedPassword(newPasswordField.getText()))) {
                     this.dispose();
                     new Login().setVisible(true);
                 }
